@@ -3,9 +3,11 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";
+import SignUp from "./screens/SignUp";
 import { darkModeVar, isLoggedInVar } from "./apollo";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, GlobalStyles, lightTheme } from "./styles";
+import routes from "./routes";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -15,9 +17,14 @@ function App() {
       <GlobalStyles />
       <Router>
         <Switch>
-          <Route path="/" exact>
+          <Route path={routes.home} exact>
             {isLoggedIn ? <Home /> : <Login />}
           </Route>
+          {!isLoggedIn ? (
+            <Route path={routes.signUp}>
+              <SignUp />
+            </Route>
+          ) : null}
           <Route>
             <NotFound />
           </Route>
