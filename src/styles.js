@@ -3,7 +3,7 @@ import reset from "styled-reset";
 
 export const lightTheme = {
   fontColor: "#2c2c2c",
-  bgColor: "#FAFAFA",
+  bgColor: "purple",
   accent: "#0095f6",
   borderColor: "rgb(219, 219, 219)",
 };
