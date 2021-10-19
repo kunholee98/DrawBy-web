@@ -11,7 +11,7 @@ const Home = () => {
   const history = useHistory();
   return (
     <div>
-      <h1>Home</h1>
+      <Title>Home</Title>
       <button onClick={() => logUserOut(history)}>Log Out Now!</button>
     </div>
   );
