@@ -1,5 +1,6 @@
 import { isLoggedInVar, logUserOut } from "../apollo";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 const Title = styled.h1`
   color: bisque;
   font-family: --apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -7,10 +8,11 @@ const Title = styled.h1`
 `;
 
 const Home = () => {
+  const history = useHistory();
   return (
     <div>
       <h1>Home</h1>
-      <button onClick={() => logUserOut()}>Log Out Now!</button>
+      <button onClick={() => logUserOut(history)}>Log Out Now!</button>
     </div>
   );
 };
