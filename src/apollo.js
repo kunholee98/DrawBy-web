@@ -41,42 +41,40 @@ export const disableDarkMode = () => {
   darkModeVar(false);
 };
 
-// const httpLink = createHttpLink({
-//   uri: "http://localhost:4000/graphql",
-// });
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+});
 
-// const authLink = setContext((_, { headers }) => {
-//   const token = localStorage.getItem(TOKEN);
-//   return {
-//     headers: {
-//       ...headers,
-//       //authorization: token ? `Bearer ${token}` : "",
-//       authorization: localStorage.getItem(TOKEN),
-//     },
-//   };
-// });
-
-// export const client = new ApolloClient({
-//   link: authLink.concat(httpLink),
-//   //uri: "http://localhost:4000/graphql",
-//   cache: new InMemoryCache(),
-// });
-
-const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-  // add the authorization to the headers
-  operation.setContext(({ headers = {} }) => ({
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(TOKEN);
+  return {
     headers: {
       ...headers,
-      authorization: localStorage.getItem(TOKEN),
+      authorization: token ? `Bearer ${token}` : "",
     },
-  }));
-
-  return forward(operation);
+  };
 });
 
 export const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-  link: authMiddleware.concat(httpLink),
 });
+
+// const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
+
+// const authMiddleware = new ApolloLink((operation, forward) => {
+//   // add the authorization to the headers
+//   operation.setContext(({ headers = {} }) => ({
+//     headers: {
+//       ...headers,
+//       Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
+//     },
+//   }));
+
+//   return forward(operation);
+// });
+
+// export const client = new ApolloClient({
+//   cache: new InMemoryCache(),
+//   link: authMiddleware.concat(httpLink),
+// });

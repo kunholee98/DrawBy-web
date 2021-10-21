@@ -16,15 +16,12 @@ function useUser() {
   const { data } = useQuery(ME_QUERY, {
     skip: !hasToken,
   });
-  console.log("hasToken");
-  console.log(hasToken);
-  //   useEffect(() => {
-  //     if (data?.me === null) {
-  //       logUserOut();
-  //     }
-  //   }, [data]);
-  console.log(data);
-  return;
+  useEffect(() => {
+    if (data?.me === null) {
+      logUserOut();
+    }
+  }, [data]);
+  return { data };
 }
 
 export default useUser;
