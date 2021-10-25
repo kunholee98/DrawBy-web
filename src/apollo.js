@@ -1,10 +1,4 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  HttpLink,
-  InMemoryCache,
-  makeVar,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
 import { createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import routes from "./routes";
