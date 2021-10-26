@@ -13,14 +13,14 @@ export const logUserIn = (token) => {
   //console.log(TOKEN);
   //console.log(token);
   isLoggedInVar(true);
-  console.log("log in");
+  //console.log("log in");
 };
 
 export const logUserOut = (history) => {
   localStorage.removeItem(TOKEN);
   history?.replace(routes.home, null);
   window.location.reload();
-  console.log("log out");
+  //console.log("log out");
 };
 
 export const darkModeVar = makeVar(Boolean(localStorage.getItem(DARK_MODE)));
