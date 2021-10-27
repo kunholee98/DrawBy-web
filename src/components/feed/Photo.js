@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../commons";
+import Comments from "./Comments";
 
 const TOGGLE_LIKE_2_PICTURE_MUTATION = gql`
   mutation toggleLike2Picture($id: Int!) {
@@ -70,24 +71,6 @@ const PhotoAction = styled.div`
 const Likes = styled(FatText)`
   margin-top: 10px;
   display: block;
-`;
-
-const Comments = styled.div`
-  margin-top: 20px;
-`;
-
-const Comment = styled.div``;
-
-const CommentCaption = styled.span`
-  margin-left: 10px;
-`;
-
-const CommentCount = styled.span`
-  opacity: 0.7;
-  margin: 10px 0px;
-  display: block;
-  font-weight: 600;
-  font-size: 12px;
 `;
 
 function Photo({
@@ -165,16 +148,12 @@ function Photo({
           </div>
         </PhotoActions>
         <Likes>{totalLike === 1 ? "1 like" : `${totalLike} likes`}</Likes>
-        <Comments>
-          <Comment>
-            <FatText>{author.username}</FatText>
-            <CommentCaption>{caption}</CommentCaption>
-          </Comment>
-          <CommentCount>
-            {totalComment === 1 ? "1 comment" : `${totalComment} comments`}
-            <span>{comments.author}</span>
-          </CommentCount>
-        </Comments>
+        <Comments
+          author={author}
+          caption={caption}
+          totalComment={totalComment}
+          comments={comments}
+        />
       </PhotoData>
     </PhotoContainer>
   );
@@ -188,16 +167,7 @@ Photo.propTypes = {
   }),
   file: PropTypes.string.isRequired,
   caption: PropTypes.string,
-  comments: PropTypes.arrayOf({
-    id: PropTypes.number,
-    payload: PropTypes.string,
-    author: PropTypes.shape({
-      avatar: PropTypes.string,
-      username: PropTypes.string,
-    }),
-    isMine: PropTypes.bool,
-    createdAt: PropTypes.string,
-  }),
+
   totalComment: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
   totalLike: PropTypes.number.isRequired,
