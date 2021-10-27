@@ -72,7 +72,34 @@ const Likes = styled(FatText)`
   display: block;
 `;
 
-function Photo({ id, author, file, isLiked, totalLike }) {
+const Comments = styled.div`
+  margin-top: 20px;
+`;
+
+const Comment = styled.div``;
+
+const CommentCaption = styled.span`
+  margin-left: 10px;
+`;
+
+const CommentCount = styled.span`
+  opacity: 0.7;
+  margin: 10px 0px;
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+`;
+
+function Photo({
+  id,
+  author,
+  file,
+  isLiked,
+  totalLike,
+  caption,
+  comments,
+  totalComment,
+}) {
   const updateToggleLike = (cache, result) => {
     const {
       data: {
@@ -138,6 +165,16 @@ function Photo({ id, author, file, isLiked, totalLike }) {
           </div>
         </PhotoActions>
         <Likes>{totalLike === 1 ? "1 like" : `${totalLike} likes`}</Likes>
+        <Comments>
+          <Comment>
+            <FatText>{author.username}</FatText>
+            <CommentCaption>{caption}</CommentCaption>
+          </Comment>
+          <CommentCount>
+            {totalComment === 1 ? "1 comment" : `${totalComment} comments`}
+            <span>{comments.author}</span>
+          </CommentCount>
+        </Comments>
       </PhotoData>
     </PhotoContainer>
   );
@@ -150,6 +187,18 @@ Photo.propTypes = {
     username: PropTypes.string.isRequired,
   }),
   file: PropTypes.string.isRequired,
+  caption: PropTypes.string,
+  comments: PropTypes.arrayOf({
+    id: PropTypes.number,
+    payload: PropTypes.string,
+    author: PropTypes.shape({
+      avatar: PropTypes.string,
+      username: PropTypes.string,
+    }),
+    isMine: PropTypes.bool,
+    createdAt: PropTypes.string,
+  }),
+  totalComment: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
   totalLike: PropTypes.number.isRequired,
 };
