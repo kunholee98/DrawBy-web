@@ -1,18 +1,43 @@
 import { isLoggedInVar, logUserOut } from "../apollo";
-import styled from "styled-components";
 import { useHistory } from "react-router";
-const Title = styled.h1`
-  color: bisque;
-  font-family: --apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+import { gql, useQuery } from "@apollo/client";
+import Photo from "../components/feed/Photo";
+
+const FEED_QUERY = gql`
+  query seeFeed {
+    seeFeed {
+      id
+      author {
+        username
+        avatar
+      }
+      file
+      whoLikes {
+        id
+        username
+        avatar
+      }
+      caption
+      totalLike
+      comments {
+        id
+      }
+      createdAt
+      isMine
+      isLiked
+    }
+  }
 `;
 
 const Home = () => {
+  const { data } = useQuery(FEED_QUERY);
   const history = useHistory();
   return (
     <div>
-      <Title>Home</Title>
       <button onClick={() => logUserOut(history)}>Log Out Now!</button>
+      {data?.seeFeed?.map((photo) => (
+        <Photo key={photo.id} {...photo} />
+      ))}
     </div>
   );
 };
