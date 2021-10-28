@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const CommentContainer = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-bottom: 7px;
 `;
 const CommentCaption = styled.div`
   margin-left: 10px;
