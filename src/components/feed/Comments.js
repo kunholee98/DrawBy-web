@@ -119,8 +119,11 @@ function Comments({ pictureId, author, caption, totalComment, comments }) {
       {comments?.map((comment) => (
         <Comment
           key={comment.id}
+          id={comment.id}
+          pictureId={pictureId}
           author={comment.author}
           payload={comment.payload}
+          isMine={comment.isMine}
         />
       ))}
       <PostCommentContainer>
