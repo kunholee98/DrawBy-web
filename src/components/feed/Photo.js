@@ -90,28 +90,21 @@ function Photo({
       },
     } = result;
     if (ok) {
-      const fragmentId = `Picture:${id}`;
-      const fragment = gql`
-        fragment toggleLike on Picture {
-          isLiked
-          totalLike
-        }
-      `;
-      const result = cache.readFragment({
-        id: fragmentId,
-        fragment,
-      });
-      if ("isLiked" in result && "totalLike" in result) {
-        const { isLiked: cacheIsLiked, totalLike: cacheTotalLike } = result;
-        cache.writeFragment({
-          id: fragmentId,
-          fragment,
-          data: {
-            isLiked: !cacheIsLiked,
-            totalLike: cacheIsLiked ? cacheTotalLike - 1 : cacheTotalLike + 1,
+      const pictureId = `Picture:${id}`;
+      cache.modify({
+        id: pictureId,
+        fields: {
+          isLiked(prev) {
+            return !prev;
           },
-        });
-      }
+          totalLike(prev) {
+            if (isLiked) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+        },
+      });
     }
   };
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_2_PICTURE_MUTATION, {
