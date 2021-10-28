@@ -1,7 +1,8 @@
-import sanitize from "sanitize-html";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FatText } from "../commons";
+import { Link } from "react-router-dom";
 
 const CommentContainer = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const CommentContainer = styled.div`
 `;
 const CommentCaption = styled.div`
   margin-left: 10px;
-  mark {
+  a {
     background-color: inherit;
     color: ${(props) => props.theme.accent};
     cursor: pointer;
@@ -20,21 +21,22 @@ const CommentCaption = styled.div`
 `;
 
 function Comment({ author, payload }) {
-  const cleanedPayload = sanitize(
-    payload.replace(/#[0-9a-zA-Z가-힣]+/g, "<mark>$&</mark>"),
-    // mark에 onClick 추가 가능!
-    {
-      allowedTags: ["mark"],
-    }
-  );
   return (
     <CommentContainer>
       <FatText>{author.username}</FatText>
-      <CommentCaption
-        dangerouslySetInnerHTML={{
-          __html: cleanedPayload,
-        }}
-      />
+      <CommentCaption>
+        {payload.split(" ").map((word, index) =>
+          /#[0-9a-zA-Z가-힣]+/g.test(word) ? (
+            <React.Fragment key={index}>
+              <Link key={index} to={`/hashtags/${word}`}>
+                {word}
+              </Link>{" "}
+            </React.Fragment>
+          ) : (
+            <React.Fragment key={index}>{word} </React.Fragment>
+          )
+        )}
+      </CommentCaption>
     </CommentContainer>
   );
 }
