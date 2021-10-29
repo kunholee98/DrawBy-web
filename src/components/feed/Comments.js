@@ -49,13 +49,13 @@ function Comments({ pictureId, author, caption, totalComment, comments }) {
     setValue("payload", "");
     const {
       data: {
-        createComment: { ok, error, id },
+        createComment: { ok, id },
       },
     } = result;
     if (ok && userData?.me) {
       const newComment = {
         __typename: "Comment",
-        createdAt: Date.now(),
+        createdAt: Date.now() + "",
         id,
         isMine: true,
         payload,
@@ -78,7 +78,6 @@ function Comments({ pictureId, author, caption, totalComment, comments }) {
           }
         `,
       });
-      console.log(newCacheComment);
       cache.modify({
         id: `Picture:${pictureId}`,
         fields: {
