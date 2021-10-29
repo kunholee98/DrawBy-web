@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { PICTURE_FRAGMENT } from "../fragment";
 import PageTitle from "../components/PageTitle";
 import styled from "styled-components";
@@ -7,6 +7,23 @@ import { FatText } from "../components/commons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/auth/Button";
+import useUser from "../hooks/useUser";
+
+const FOLLOW_USER_MUTATION = gql`
+  mutation followUser($username: String!) {
+    followUser(username: $username) {
+      ok
+    }
+  }
+`;
+
+const UNFOLLOW_USER_MUTATION = gql`
+  mutation unfollowUser($username: String!) {
+    unfollowUser(username: $username) {
+      ok
+    }
+  }
+`;
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -113,9 +130,41 @@ const ProfileBtn = styled(Button).attrs({
 
 function Profile() {
   const { username } = useParams();
+  const { data: userData } = useUser();
   const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
     variables: { username },
   });
+  const [unfollowUser] = useMutation(UNFOLLOW_USER_MUTATION, {
+    variables: { username },
+    refetchQueries: [
+      { query: SEE_PROFILE_QUERY, variables: { username } },
+      {
+        query: SEE_PROFILE_QUERY,
+        variables: { username: userData?.me?.username },
+      },
+    ],
+  });
+  const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+    variables: { username },
+    refetchQueries: [
+      { query: SEE_PROFILE_QUERY, variables: { username } },
+      {
+        query: SEE_PROFILE_QUERY,
+        variables: { username: userData?.me?.username },
+      },
+    ],
+  });
+  const getButton = (seeProfile) => {
+    const { isMe, isFollowing } = seeProfile;
+    if (isMe) {
+      return <ProfileBtn>Edit Profile</ProfileBtn>;
+    }
+    if (isFollowing) {
+      return <ProfileBtn onClick={unfollowUser}>Unfollow</ProfileBtn>;
+    } else {
+      return <ProfileBtn onClick={followUser}>Follow</ProfileBtn>;
+    }
+  };
   return (
     <div>
       <PageTitle
@@ -128,7 +177,7 @@ function Profile() {
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>
-            {/* {data?.seeProfile ? getButton(data.seeProfile) : null} */}
+            {data?.seeProfile ? getButton(data.seeProfile) : null}
           </Row>
           <Row>
             <List>
