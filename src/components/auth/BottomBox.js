@@ -5,6 +5,7 @@ import { BaseBox } from "../commons";
 
 const SBottomBox = styled(BaseBox)`
   padding: 20px 0px;
+  border-radius: 5px;
   text-align: center;
   a {
     font-weight: 600;

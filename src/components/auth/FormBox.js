@@ -8,9 +8,10 @@ const Container = styled(BaseBox)`
   flex-direction: column;
   padding: 35px 40px 25px 40px;
   margin-bottom: 10px;
+  border-radius: 5px;
   form {
-    margin-top: 35px;
-    width: 100%;
+    margin-top: 20px;
+    width: 90%;
     display: flex;
     justify-items: center;
     flex-direction: column;

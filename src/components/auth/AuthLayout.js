@@ -13,8 +13,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 350px;
-  width: 100%;
+  max-width: 800px;
 `;
 
 const Footer = styled.footer`

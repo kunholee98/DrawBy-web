@@ -1,7 +1,10 @@
-import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompass } from "@fortawesome/free-regular-svg-icons";
-import { faHome, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faPalette,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useReactiveVar } from "@apollo/client";
 import { isLoggedInVar, logUserOut } from "./apollo";
@@ -10,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import useUser from "./hooks/useUser";
 import Avatar from "./components/Avatar";
+import { DrawBy, FatText } from "./components/commons";
 
 const SHeader = styled.header`
   width: 100%;
@@ -56,7 +60,7 @@ function Header() {
     <SHeader>
       <Wrapper>
         <Column>
-          <FontAwesomeIcon icon={faInstagram} size="2x" />
+          <DrawBy />
         </Column>
         <Column>
           {isLoggedIn ? (

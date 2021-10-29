@@ -1,4 +1,4 @@
-import { isLoggedInVar, logUserOut } from "../apollo";
+import { logUserOut } from "../apollo";
 import { useHistory } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import Photo from "../components/feed/Photo";
@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <div>
       <PageTitle title={"Home"} />
-      <button onClick={() => logUserOut(history)}>Log Out Now!</button>
+      {/* <button onClick={() => logUserOut(history)}>Log Out Now!</button> */}
       {data?.seeFeed?.map((photo) => (
         <Photo key={photo.id} {...photo} />
       ))}
