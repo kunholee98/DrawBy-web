@@ -10,6 +10,7 @@ import { darkTheme, GlobalStyles, lightTheme } from "./styles";
 import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
+import Profile from "./screens/Profile";
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const darkMode = useReactiveVar(darkModeVar);
@@ -34,6 +35,10 @@ function App() {
                   <SignUp />
                 </Route>
               ) : null}
+              <Route path={`/users/:username`}>
+                {/* :는 변수라는 의미, useParams와 함께 사용. */}
+                <Profile />
+              </Route>
               <Route>
                 <NotFound />
               </Route>
