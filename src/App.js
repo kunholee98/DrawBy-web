@@ -37,7 +37,9 @@ function App() {
               ) : null}
               <Route path={`/users/:username`}>
                 {/* :는 변수라는 의미, useParams와 함께 사용. */}
-                <Profile />
+                <Layout>
+                  <Profile />
+                </Layout>
               </Route>
               <Route>
                 <NotFound />
