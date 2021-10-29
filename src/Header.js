@@ -1,12 +1,13 @@
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompass } from "@fortawesome/free-regular-svg-icons";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useReactiveVar } from "@apollo/client";
-import { isLoggedInVar } from "./apollo";
+import { isLoggedInVar, logUserOut } from "./apollo";
 import routes from "./routes";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import useUser from "./hooks/useUser";
 import Avatar from "./components/Avatar";
 
@@ -50,6 +51,7 @@ const IconsContainer = styled.div`
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
+  const history = useHistory();
   return (
     <SHeader>
       <Wrapper>
@@ -60,7 +62,9 @@ function Header() {
           {isLoggedIn ? (
             <IconsContainer>
               <Icon>
-                <FontAwesomeIcon icon={faHome} size="lg" />
+                <Link to={routes.home}>
+                  <FontAwesomeIcon icon={faHome} size="lg" />
+                </Link>
               </Icon>
               <Icon>
                 <FontAwesomeIcon icon={faCompass} size="lg" />
@@ -70,9 +74,14 @@ function Header() {
                   <Avatar url={data?.me?.avatar} />
                 </Link>
               </Icon>
+              <Icon>
+                <Link to={routes.home} onClick={() => logUserOut(history)}>
+                  <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
+                </Link>
+              </Icon>
             </IconsContainer>
           ) : (
-            <Link href={routes.home}>
+            <Link to={routes.home}>
               <Button>Login</Button>
             </Link>
           )}
